@@ -2,12 +2,12 @@
 
 spl_autoload_register(function ($class) {
     $prefixes = [
-        'App\\'    => __DIR__ . '/App',
-        'Vendor\\' => __DIR__ . '/Vendor',
+        'App\\'    => __DIR__ . '/../App/',
+        'Vendor\\' => __DIR__ . '/../Vendor/',
     ];
 
     foreach ($prefixes as $prefix => $baseDir) {
-        if (strncmp($prefix, $class, strlen($prefix)) !== 0) {
+        if (strncmp($class, $prefix, strlen($prefix)) !== 0) {
             continue;
         }
 
