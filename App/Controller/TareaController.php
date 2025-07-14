@@ -2,6 +2,7 @@
     namespace App\Controller;
 
     use App\Model\TareaModel;
+    use Vendor\JWT;
 
     class TareaController {
         private $tareas;
@@ -16,18 +17,6 @@
             $tareas = $this->tareas->buscar('usuario_id',$userId);
 
             echo json_encode($tareas);
-        }
-
-        public function show($id) {
-            $tarea = $this->tareas->buscar('id', $id);
-
-            if (!$tarea) {
-                http_response_code(404);
-                echo json_encode(['error' => 'Tarea no encontrada']);
-                exit;
-            }
-
-            echo json_encode($tarea);
         }
 
         public function create() {
@@ -48,7 +37,7 @@
                 'usuario_id' => $userId,
                 'ciudad' => $data['ciudad'] ?? null,
                 'clima_actual' => $data['clima_actual'] ?? null,
-                'frase_motivacional' => $data['frase_motivacional'] ?? null,
+                'frase_motivacional' => $this->obtenerFraseMotivacional(),
             ];
 
             $this->tareas->insert($nuevaTarea);
@@ -127,7 +116,7 @@
             $token = substr($authHeader, 7);
 
             try {
-                $payload = \Vendor\JWT::decode($token, $_ENV['JWT_SECRET']);
+                $payload = JWT::decode($token, $_ENV['JWT_SECRET']);
                 return $payload['sub'] ?? null;
             } catch (\Exception $e) {
                 http_response_code(401);
@@ -135,5 +124,24 @@
                 exit;
             }
         }
+
+        private function obtenerFraseMotivacional() {
+            $url = "https://zenquotes.io/api/random";
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+
+            $response = curl_exec($ch);
+            $error = curl_error($ch);
+            curl_close($ch);
+
+            if ($response === false) {
+                return "Sigue adelante, incluso cuando sea difícil.";
+            }
+
+            $data = json_decode($response, true);
+            return $data[0]['q'] ?? "Confía en el proceso.";
+        }
+
     }
 ?>
