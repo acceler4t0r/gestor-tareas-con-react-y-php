@@ -1,0 +1,275 @@
+.header-dashboard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f5f5f5;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.app-name{
+  font-size: 30px;
+  color: #800000;
+}
+
+.info-header {
+  display: flex;
+  gap: 20px;
+  font-size: 15px;
+}
+
+.logout{
+  cursor: pointer;
+  color: #800000;
+  border: none;
+  background-color: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s;
+}
+.logout:hover{
+  cursor: pointer;
+  color: #bb3535;
+}
+
+.flex{
+  display: flex;
+}
+.justify-center {
+  justify-content: center;
+}
+.items-center{
+  align-items: center;
+}
+.h-screen{
+  height: 100vh;
+}
+.bg-login{
+  background-color: rgb(242, 242, 242);
+}
+
+/*Login*/
+
+.login-container{
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px 1px rgba(0, 0, 0, 0.18);
+  width: 50%;
+  padding: 0px 80px 40px 80px;
+  height: max-content;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.login-title{
+  width: 100%;
+  margin-bottom: 40px;
+  text-align: center;
+  font-size: 32px;
+  color: #800000;
+}
+.error-alert{
+  color: rgb(203, 20, 20);
+  font-weight: 600;
+  padding: 4px;
+  width: 100%;
+  height: max-content;
+}
+.input-form-login{
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #e037507d;
+  transition: 0.3s;
+}
+.input-form-login:focus{
+  outline: 1px solid #e03750bb;
+}
+.button-form-login{
+  width: 100%;
+  padding: 13px;
+  border-radius: 5px;
+  background-color: #b22222;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 1px solid #8b1a1a;
+}
+.button-form-login:hover{
+  background-color: #8b1a1a;
+}
+
+.toggle-auth{
+  cursor: pointer;
+  font-size: 18px;
+  transition: 0.3s;
+}
+.toggle-auth:hover{
+  color: #800000;
+}
+
+/*Pendiente el responsive Login*/
+
+
+/*Tareas*/
+
+.container-tareas{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.content-tareas{
+  display: flex;
+  width: 80%;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.tareas-title{
+  font-weight: 600;
+  width: 100%;
+}
+
+.container-button-add{
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  margin:10px 10px;
+}
+.btn-agregar-tarea{
+  border: 1px solid #8b1a1a;
+  border-radius: 5px;
+  background-color: #b22222;
+  padding: 10px;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  justify-content: right;
+}
+
+.btn-agregar-tarea:hover{
+  background-color: #8b1a1a;
+}
+
+.tabla-tareas{
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-head{
+  background-color: #b22222;
+  height: 40px;
+  color: white;
+}
+
+.tabla-head tr th,
+.tabla-body tr td{
+  border-bottom: 2px solid #9e9393;
+  text-align: center;
+  padding: 10px;
+}
+
+.icon-tabla{
+  border: none;
+  background-color: white;
+}
+
+.icon{
+  cursor: pointer;
+  transition: 0.3s;
+  fill: #4b4b4b;
+}
+
+.icon:hover{
+  fill: #800000;
+}
+
+/*Pendiente responsive*/
+
+/*Modal Crear*/
+
+.modal-bg{
+  position: fixed;
+  inset: 0;
+  background-color: #000000b3;
+}
+
+.modal-form-content{
+  background-color: white;
+  border-radius: 10px;
+  padding: 0px 20px 10px 20px;
+}
+
+.modal-title{
+  font-size: 22px;
+  color: black;
+}
+
+.modal-form-input-content{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  margin: 5px 0px;
+}
+
+.input-modal-content{
+  width: 100%;
+  height: 30px;
+  border: 1px solid #e037507d;
+  padding: 5px;
+  transition: 0.3s;
+}
+
+.input-modal-content:focus{
+  outline: 1px solid #e03750bb;
+}
+
+.button-container{
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  gap: 4px;
+}
+
+.btn-close-modal{
+  cursor: pointer;
+  border: 1px solid black;
+  border-radius: 10px;
+  transition: 0.3s;
+  padding: 6px;
+}
+
+.btn-accept-modal{
+  cursor: pointer;
+  border: 1px solid #8b1a1a;
+  background-color: #b22222;
+  color: white;
+  border-radius: 10px;
+  transition: 0.3s;
+  padding: 6px;
+}
+.btn-close-modal:hover{
+  background-color: black;
+  color: white;
+}
+
+.btn-accept-modal:hover{
+  background-color: #8b1a1a;
+}
+
