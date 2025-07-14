@@ -1,70 +1,186 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# BRANGUS TAREAS
 
-## Available Scripts
+Sistema backend en PHP puro para la gestión de usuarios y tareas, con autenticación mediante JWT y rutas protegidas. Desarrollado como parte de un proyecto CRUD full-stack con React como frontend.
 
-In the project directory, you can run:
+## Índice
 
-### `npm start`
+1. [Tecnologías](#tecnologías)  
+2. [Características](#características)  
+3. [Requisitos Previos](#requisitos-previos)  
+4. [Instalación](#instalación)  
+   - [Backend (XAMPP)](#backend-xampp)  
+   - [Frontend (React)](#frontend-react)  
+5. [Uso](#uso)  
+6. [Estructura de Carpetas](#estructura-de-carpetas)  
+7. [Documentación de la API](#documentación-de-la-api)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
+## Tecnologías
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Backend**: PHP 8.x, MySQL  
+- **Servidor local**: XAMPP
+- **Autenticación**: JWT manual (sin Composer)
+- **Routing y Middleware**: personalizados
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Características
 
-### `npm run build`
+- Inicio de sesión con generación de token JWT  
+- Validación de rutas protegidas mediante middleware  
+- CRUD completo de tareas  
+- Carga de variables de entorno desde archivo `.env`  
+- Autoloader manual basado en namespaces  
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Requisitos Previos
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- XAMPP (Apache + MySQL)
+- Apache mod_rewrite activo.
+- PHP 8.x
+- Git (opcional pero recomendado)
+- Node.js >= 22.x+
+- npm
+- Backend corriendo (link o referencia al repo del backend)
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Instalación y configuración
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Backend (XAMPP)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**1. Clonar o copiar el proyecto**  
+   Coloca el contenido del repositorio en:  
+   `C:\xampp\htdocs\brangus`
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**2. Crear la base de datos**  
+   Accede a `http://localhost/phpmyadmin` y crea una base de datos:  
+   `brangus_db` (o el nombre que desees).
 
-## Learn More
+  ```bash
+    CREATE DATABASE '*BD_NAME*' CHARACTER SET utf8mb4; 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    USE '*BD_NAME*'; -- Tabla de usuarios 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+    CREATE TABLE usuarios ( 
+      id INT AUTO_INCREMENT PRIMARY KEY, 
+      correo VARCHAR(100) NOT NULL UNIQUE, 
+      contrasena VARCHAR(255) NOT NULL 
+    ); -- Tabla de tareas 
 
-### Code Splitting
+    CREATE TABLE tareas ( 
+      id INT AUTO_INCREMENT PRIMARY KEY, 
+      titulo VARCHAR(100), 
+      descripcion TEXT, 
+      estado ENUM('pendiente', 'completada') DEFAULT 'pendiente', 
+      fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+      usuario_id INT, 
+      ciudad VARCHAR(100), -- ciudad detectada por IP (opcional) 
+      clima_actual VARCHAR(100), -- clima obtenido (opcional) 
+      frase_motivacional TEXT, -- frase opcional al crear tarea 
+      FOREIGN KEY (usuario_id) REFERENCES usuarios(id) 
+    ); 
+  ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+**3. Crear el archivo `.env`** en la raíz del proyecto:
 
-### Analyzing the Bundle Size
+```bash
+  DB_HOST=tu_host
+  DB_NAME=nombre_base_datos
+  DB_USER=usuario_db
+  DB_PASS=tu_contraseña
+  JWT_SECRET=clave_secreta_para_tokens
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+**4. Verifica que `.htaccess` esté configurado correctamente** en `public/.htaccess`:
+```bash
+  <IfModule mod_rewrite.c>
+    Options +FollowSymLinks
+    RewriteEngine On
 
-### Making a Progressive Web App
+    RewriteCond %{REQUEST_URI} !^/public/
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php [QSA,L]
+  </IfModule>
 
-### Advanced Configuration
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+**5. Ejecuta Apache y MySQL desde el panel de XAMPP**
 
-### Deployment
+**6. Prueba la API visitando:** `http://localhost/brangus/public/test`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+### Frontend (React)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**1. Clonar o copiar el proyecto**  
+   Coloca el contenido del repositorio en:  
+  ```bash
+  git clone https://github.com/acceler4t0r/WilliamGuillermoRojasPerafan_rojaswilliam285-gmail.com.git
+  cd WilliamGuillermoRojasPerafan_rojaswilliam285-gmail.com.git
+  npm install
+  ```
+
+**2. Configurar URL base para la API**  
+  ```bash
+  const axiosInstance = axios.create({
+    baseURL: 'http://localhost/_NOMBRE_CARPETA_/public'
+  });
+  ```
+---
+
+## Uso
+
+1. Asegúrate de que Apache y MySQL de XAMPP estén en ejecución.
+2. Arranca el servidor de desarrollo de React (`npm start`).
+3. Abre `http://localhost:3000` en tu navegador.
+4. Inicia sesión y comienza a usar la aplicación.
+
+---
+
+## Estructura de Carpetas
+```bash
+  brangus/
+  ├── App/
+  │   ├── Controller/
+  │   │   ├── LoginController.php
+  │   │   └── TareaController.php
+  │   ├── Middleware/
+  │   │   └── AuthMiddleware.php
+  │   └── Model/
+  │       ├── UsuarioModel.php
+  │       └── TareaModel.php
+  ├── Public/
+  │   ├── index.php
+  │   └── .htaccess
+  ├── Vendor/
+  │   ├── AutoLoad.php
+  │   ├── Connection.php
+  │   ├── DB.php
+  │   ├── EnvLoader.php
+  │   ├── JWT.php
+  │   └── Route.php
+  ├── routes/
+  │   └── api.php
+  └── .env
+```
+
+## Documentación de la API
+
+| Método | Endpoint             | Descripción                   | Protección|
+| ------ | -------------------- | ---------------------         |---------- |
+| POST   | `/login`             |Inicia sesión y genera un token|   **NO**  |
+| GET    | `/tareas`            |Lista todas las tareas         |   **SI**  |
+| POST   | `/tareas`            |Crea una nueva tarea           |   **SI**  | 
+| PUT    | `/tareas/{id}`       |Actualiza una tarea            |   **SI**  |
+| DELETE | `/tareas/{id}`       |Elimina una tarea              |   **SI**  |
+| GET    | `/test`              |Ruta pública de prueba         |   **NO**  |
+
+
+---
+
+
