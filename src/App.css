@@ -107,6 +107,15 @@
   background-color: #8b1a1a;
 }
 
+.toggle-auth{
+  cursor: pointer;
+  font-size: 18px;
+  transition: 0.3s;
+}
+.toggle-auth:hover{
+  color: #800000;
+}
+
 /*Pendiente el responsive Login*/
 
 

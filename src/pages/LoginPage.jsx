@@ -55,6 +55,9 @@ const LoginPage = () => {
         >
           Iniciar Sesión
         </button>
+        <p className="toggle-auth" onClick={() => navigate('/register')}>
+          ¿No tienes cuenta? Regístrate
+        </p>
       </form>
     </div>
   );
